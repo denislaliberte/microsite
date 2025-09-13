@@ -114,9 +114,21 @@ Feature specifications are organized in `specs/` directory with implementation p
 
 **Location**: Each phase file has a "📝 Phase X Implementation Log" section at the bottom.
 
+## Commit Message Requirements
+
+**CRITICAL**: Use the `/commit` command for all commits to follow the project template:
+
+1. **Concise summary** - Brief title for git log readability
+2. **Single-line "What"** - High-level change description (no details)
+3. **Business rationale "Why"** - 1-2 sentences explaining the purpose
+4. **Manual testing "How to Test"** - Real user validation steps
+
+**Template location**: `.specify/templates/commit-template.md`
+
 ## Constitutional Principles
 - **Article I - KISS**: Simple, minimal maintenance solutions using open-source tools
 - **Article II - Text-Based**: Plain text formats (markdown) for future-proofing
 - **Article III - Content-First**: Notes and content prioritized over UI/UX
 - **Article IV - Test-First**: Contract → Integration → Unit → Implementation order
+- **Article V - Excellent Record-Keeping**: Real-time implementation logs and structured commit messages
 

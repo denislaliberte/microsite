@@ -39,6 +39,14 @@ When amending the constitution (`/memory/constitution.md`), ensure all dependent
 - [ ] Include "tests as living documentation" requirements
 - [ ] Update validation workflows to require tests first
 
+#### Article V (Excellent Record-Keeping):
+- [ ] Add implementation log requirements to all phase templates
+- [ ] Include commit message template usage requirements
+- [ ] Update templates to emphasize real-time documentation
+- [ ] Add architectural decision recording requirements
+- [ ] Include pivot and problem documentation guidelines
+- [ ] Update validation workflows to require logging compliance
+
 ## Validation Steps
 
 1. **Before committing constitution changes:**
@@ -67,9 +75,16 @@ Watch for these often-forgotten updates:
 
 ## Template Sync Status
 
-Last sync check: 2025-09-13
-- Constitution version: 1.1.0
-- Templates aligned: ✅ (all templates updated with v1.1.0 constitutional requirements)
+Last sync check: 2025-09-12
+- Constitution version: 1.2.0 (added Article V - Excellent Record-Keeping)
+- Templates aligned: ⚠️ (need updates for v1.2.0 - Article V requirements)
+
+### Article V Implementation Status:
+- [✅] Phase templates: Implementation log warnings added
+- [✅] Prime command: Logging and commit requirements documented
+- [✅] Commit template: Created with proper structure
+- [✅] Commit command: Created for template usage
+- [⚠️] Other templates: Need Article V integration check
 
 ---
 

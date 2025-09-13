@@ -15,8 +15,11 @@ Notes and content are the primary focus; UI/UX should enhance readability withou
 ### IV. Test-First Development
 All code must be developed using test-first methodology; Write contract tests before implementation to define expected behavior; Use integration tests to validate end-to-end workflows; Implement unit tests for individual components; No production code without corresponding tests; Tests serve as living documentation of system behavior
 
+### V. Excellent Record-Keeping
+Maintain comprehensive implementation logs in phase files documenting decisions, issues, and solutions in real-time; Use concise, structured git commit messages following the project template; Record architectural decisions and their rationale for future reference; Document all pivots, problems encountered, and corrective actions taken; Implementation history serves as institutional knowledge and learning resource
 
 
 
 
-**Version**: 1.1.0 | **Ratified**: 2025-09-12 | **Last Amended**: 2025-09-13
+
+**Version**: 1.2.0 | **Ratified**: 2025-09-12 | **Last Amended**: 2025-09-12
