@@ -1,11 +1,28 @@
-.DS_Store
-.gitignore
-node_modules
-public
-prof
+# Dependencies
+node_modules/
+
+# Build cache and temporary files
+.quartz-cache/
+prof/
 tsconfig.tsbuildinfo
-.obsidian
-.quartz-cache
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Obsidian files
+.obsidian/
+
+# Private content
 private/
+
+# Deployment files - keep public/ for GitHub Pages
+# !public/
+
+# Other temp files
 .replit
 replit.nix

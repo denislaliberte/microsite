@@ -1,0 +1,1 @@
+/Users/denis/notes/3-Resources/index.md

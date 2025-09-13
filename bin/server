@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Quartz Development Server Script
+# Usage: ./bin/server [port]
+
+PORT=${1:-3000}
+
+echo "🚀 Starting Quartz development server on port $PORT..."
+echo "📁 Serving content from: $(pwd)/content/"
+echo "🌐 Visit: http://localhost:$PORT"
+echo "⏹️  Stop with: Ctrl+C"
+echo ""
+
+npx quartz build --serve --port $PORT
