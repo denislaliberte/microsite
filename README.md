@@ -34,7 +34,8 @@ microsite/
 
 ### Prerequisites
 
-- **Node.js 18+** (recommended: Node.js 22)
+- **[Quartz v4](https://quartz.jzhao.xyz/)** (static site generator)
+- **Node.js 18+** (required by Quartz)
 - **npm** (comes with Node.js)
 - **Git**
 
@@ -275,11 +276,11 @@ git push origin v4
 
 ### Core Dependencies
 
-- **[Quartz v4](https://quartz.jzhao.xyz/)**: Static site generator for Obsidian notes
-- **Node.js 18+**: JavaScript runtime (recommended: 22+)
-- **TypeScript**: Type checking and compilation
-- **esbuild**: Fast JavaScript bundler
-- **remark/rehype**: Markdown processing pipeline
+- **[Quartz v4](https://quartz.jzhao.xyz/)**: Static site generator for Obsidian notes (primary dependency)
+- **Node.js 18+**: JavaScript runtime required by Quartz
+- **TypeScript**: Type checking and compilation (included with Quartz)
+- **esbuild**: Fast JavaScript bundler (included with Quartz)
+- **remark/rehype**: Markdown processing pipeline (included with Quartz)
 
 ### Key Features Provided by Dependencies
 
