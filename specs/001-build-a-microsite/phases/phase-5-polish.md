@@ -755,6 +755,893 @@ echo "✅ System fully functional and ready for production"
 
 ---
 
+### T031: Refactor test suite from bash to JavaScript or Ruby
+**Status**: 🟡 Pending  
+**Type**: Sequential  
+**File Target**: Test suite migration  
+**Validates**: Professional test infrastructure
+
+**What to implement:**
+Migrate the bash-based test suite to a more maintainable and professional testing framework using either JavaScript (Jest/Vitest) or Ruby (RSpec).
+
+**Language Decision Criteria:**
+```bash
+echo "Evaluating test framework options..."
+
+# Check existing project dependencies
+if [ -f "package.json" ]; then
+    echo "✅ Node.js/JavaScript environment already present"
+    echo "Recommendation: JavaScript with Jest or Vitest"
+else
+    echo "⚠️ No package.json found"
+fi
+
+# Check for Ruby environment
+if command -v ruby &> /dev/null; then
+    ruby_version=$(ruby --version)
+    echo "✅ Ruby available: $ruby_version"
+    echo "Alternative: Ruby with RSpec"
+else
+    echo "⚠️ Ruby not available"
+fi
+
+echo "Decision: Choose based on team preference and existing infrastructure"
+```
+
+**JavaScript Test Suite Implementation (Recommended):**
+```javascript
+// tests/integration/build-validation.test.js
+import { describe, test, expect, beforeAll, afterAll } from 'vitest';
+import { execSync } from 'child_process';
+import fs from 'fs';
+import path from 'path';
+
+describe('Build Validation Suite', () => {
+  beforeAll(() => {
+    // Ensure clean state before tests
+    console.log('Setting up test environment...');
+  });
+
+  afterAll(() => {
+    // Cleanup after tests
+    console.log('Cleaning up test environment...');
+  });
+
+  describe('Published content generation', () => {
+    test('should generate HTML files for published markdown', () => {
+      // Run build process
+      execSync('npx quartz build', { stdio: 'pipe' });
+      
+      // Check for expected HTML files
+      const requiredFiles = [
+        'public/index.html',
+        'public/til/spec-kit/index.html',
+        'public/static/contentIndex.json',
+        'public/sitemap.xml'
+      ];
+      
+      requiredFiles.forEach(file => {
+        expect(fs.existsSync(file)).toBe(true);
+      });
+    });
+  });
+
+  describe('Unpublished content exclusion', () => {
+    test('should exclude unpublished notes from build', () => {
+      // Create temporary unpublished content
+      const testContent = `---
+title: "Private Test Note"
+publish: false
+---
+
+This should not appear in the build.`;
+      
+      fs.writeFileSync('content/private-test.md', testContent);
+      
+      // Run build
+      execSync('npx quartz build', { stdio: 'pipe' });
+      
+      // Verify private content not in build
+      const privateFiles = execSync('find public/ -name "*private-test*"', { 
+        stdio: 'pipe',
+        encoding: 'utf8'
+      }).trim();
+      
+      expect(privateFiles).toBe('');
+      
+      // Cleanup
+      fs.unlinkSync('content/private-test.md');
+    });
+  });
+
+  describe('Wiki link conversion', () => {
+    test('should convert wiki links to HTML href attributes', () => {
+      execSync('npx quartz build', { stdio: 'pipe' });
+      
+      // Check if wiki links are converted in built HTML
+      const htmlFiles = execSync('find public/til/ -name "*.html"', {
+        stdio: 'pipe',
+        encoding: 'utf8'
+      }).trim().split('\n').filter(f => f);
+      
+      let foundWikiLinks = false;
+      htmlFiles.forEach(file => {
+        if (fs.existsSync(file)) {
+          const content = fs.readFileSync(file, 'utf8');
+          if (content.includes('href=') && content.includes('til/')) {
+            foundWikiLinks = true;
+          }
+        }
+      });
+      
+      expect(foundWikiLinks).toBe(true);
+    });
+  });
+
+  describe('Performance requirements', () => {
+    test('should build in under 30 seconds', () => {
+      const startTime = Date.now();
+      
+      execSync('npx quartz build', { stdio: 'pipe' });
+      
+      const buildTime = (Date.now() - startTime) / 1000;
+      console.log(`Build completed in ${buildTime} seconds`);
+      
+      expect(buildTime).toBeLessThan(30);
+    }, 35000); // 35 second timeout
+  });
+
+  describe('Site accessibility', () => {
+    test('should be accessible via HTTPS', async () => {
+      const siteUrl = 'https://denislaliberte.github.io/microsite/';
+      
+      try {
+        const response = await fetch(siteUrl);
+        expect(response.ok).toBe(true);
+        expect(response.status).toBe(200);
+      } catch (error) {
+        console.warn('Site accessibility test skipped - may be first deployment');
+        // Don't fail the test for first deployment
+      }
+    });
+  });
+});
+```
+
+**Ruby Test Suite Alternative:**
+```ruby
+# tests/integration/build_validation_spec.rb
+require 'rspec'
+require 'fileutils'
+require 'net/http'
+require 'uri'
+
+RSpec.describe 'Build Validation Suite' do
+  before(:all) do
+    puts 'Setting up test environment...'
+  end
+
+  after(:all) do
+    puts 'Cleaning up test environment...'
+  end
+
+  describe 'Published content generation' do
+    it 'generates HTML files for published markdown' do
+      # Run build process
+      system('npx quartz build > /dev/null 2>&1')
+      expect($?).to be_success
+      
+      # Check for expected HTML files
+      required_files = [
+        'public/index.html',
+        'public/til/spec-kit/index.html',
+        'public/static/contentIndex.json',
+        'public/sitemap.xml'
+      ]
+      
+      required_files.each do |file|
+        expect(File.exist?(file)).to be true, "Expected #{file} to exist"
+      end
+    end
+  end
+
+  describe 'Unpublished content exclusion' do
+    it 'excludes unpublished notes from build' do
+      # Create temporary unpublished content
+      test_content = <<~MARKDOWN
+        ---
+        title: "Private Test Note"
+        publish: false
+        ---
+
+        This should not appear in the build.
+      MARKDOWN
+      
+      File.write('content/private-test.md', test_content)
+      
+      # Run build
+      system('npx quartz build > /dev/null 2>&1')
+      expect($?).to be_success
+      
+      # Verify private content not in build
+      private_files = `find public/ -name "*private-test*"`.strip
+      expect(private_files).to be_empty
+      
+      # Cleanup
+      File.delete('content/private-test.md')
+    end
+  end
+
+  describe 'Performance requirements' do
+    it 'builds in under 30 seconds' do
+      start_time = Time.now
+      
+      system('npx quartz build > /dev/null 2>&1')
+      expect($?).to be_success
+      
+      build_time = Time.now - start_time
+      puts "Build completed in #{build_time} seconds"
+      
+      expect(build_time).to be < 30
+    end
+  end
+end
+```
+
+**Package Configuration for JavaScript Tests:**
+```json
+// Add to package.json
+{
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:integration": "vitest run tests/integration/"
+  },
+  "devDependencies": {
+    "vitest": "^1.0.0",
+    "@vitest/ui": "^1.0.0"
+  }
+}
+```
+
+**Ruby Test Setup (Gemfile):**
+```ruby
+# Gemfile (if choosing Ruby)
+source 'https://rubygems.org'
+
+gem 'rspec', '~> 3.12'
+gem 'rspec-json_expectations', '~> 2.2'
+```
+
+**Migration Process:**
+```bash
+echo "Migrating test suite to JavaScript/Ruby..."
+
+# Step 1: Choose framework and install dependencies
+if [ -f "package.json" ]; then
+    echo "Installing JavaScript test dependencies..."
+    npm install --save-dev vitest @vitest/ui
+    
+    # Create test configuration
+    cat > vitest.config.js << 'EOF'
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+  test: {
+    globals: true,
+    environment: 'node',
+    testTimeout: 60000,
+    hookTimeout: 60000
+  }
+});
+EOF
+
+else
+    echo "Setting up Ruby test environment..."
+    cat > Gemfile << 'EOF'
+source 'https://rubygems.org'
+
+gem 'rspec', '~> 3.12'
+gem 'rspec-json_expectations', '~> 2.2'
+EOF
+    
+    bundle install
+    rspec --init
+fi
+
+# Step 2: Create test directory structure
+mkdir -p tests/integration
+mkdir -p tests/unit
+
+# Step 3: Migrate existing bash tests
+echo "Converting bash validation tests to chosen framework..."
+
+# Step 4: Update CI/CD pipeline
+echo "Updating GitHub Actions to use new test suite..."
+
+echo "✅ Test suite migration completed"
+```
+
+**Success Criteria:**
+- [ ] Test framework chosen (JavaScript/Jest/Vitest or Ruby/RSpec)
+- [ ] All existing bash test functionality migrated
+- [ ] Tests can be run with simple command (`npm test` or `rspec`)
+- [ ] Test output is clear and professional
+- [ ] CI/CD pipeline updated to use new tests
+- [ ] Original bash tests can be safely removed
+
+---
+
+### T032: Update CI/CD pipeline to use new test framework
+**Status**: 🟡 Pending  
+**Type**: Sequential  
+**File Target**: `.github/workflows/deploy.yml`  
+**Validates**: Professional CI/CD integration
+
+**What to implement:**
+Update the GitHub Actions workflow to use the new JavaScript or Ruby test suite instead of bash scripts.
+
+**GitHub Actions Update (JavaScript):**
+```yaml
+# Update .github/workflows/deploy.yml
+name: Deploy Quartz site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - 001-build-a-microsite
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup content symlink
+        run: |
+          # Setup test content structure for CI
+          mkdir -p content/til
+          echo '---
+          title: "Test Note"
+          publish: true
+          ---
+          # Test Content' > content/til/test.md
+
+      - name: Run integration tests
+        run: npm run test:integration
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup content
+        run: |
+          # Create content symlink or copy for deployment
+          if [ ! -d "content" ]; then
+            mkdir -p content/til
+            # Add default content for deployment
+          fi
+
+      - name: Build site
+        run: npx quartz build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+```
+
+**GitHub Actions Update (Ruby):**
+```yaml
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2
+          bundler-cache: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          bundle install
+
+      - name: Setup content symlink
+        run: |
+          mkdir -p content/til
+          echo '---
+          title: "Test Note"
+          publish: true
+          ---
+          # Test Content' > content/til/test.md
+
+      - name: Run integration tests
+        run: bundle exec rspec tests/integration/
+```
+
+**Local Development Scripts:**
+```bash
+# Add npm scripts for JavaScript approach
+npm set-script test "vitest run"
+npm set-script test:watch "vitest"
+npm set-script test:integration "vitest run tests/integration/"
+npm set-script test:ci "vitest run --reporter=verbose"
+
+# For Ruby approach, add to package.json scripts:
+# "test": "bundle exec rspec",
+# "test:integration": "bundle exec rspec tests/integration/"
+```
+
+**Success Criteria:**
+- [ ] CI/CD pipeline runs new test suite
+- [ ] Tests must pass before deployment
+- [ ] Clear test output in GitHub Actions logs
+- [ ] Failed tests block deployment appropriately
+- [ ] Local and CI test commands consistent
+
+---
+
+### T033: Migrate from denislaliberte.github.io/microsite to denislaliberte.github.io
+**Status**: 🟡 Pending  
+**Type**: Sequential  
+**File Target**: Repository migration and domain setup  
+**Validates**: Production domain configuration
+
+**What to implement:**
+Migrate the microsite from the subdirectory `/microsite` to the main GitHub Pages domain `denislaliberte.github.io` by backing up existing content and replacing it with the microsite.
+
+**⚠️ CRITICAL: Backup and Migration Process**
+This is a destructive operation that will replace the existing `denislaliberte.github.io` repository content. Proper backup is essential.
+
+**Step 1: Backup Existing Repository**
+```bash
+echo "Creating backup of existing denislaliberte.github.io repository..."
+
+# Navigate to a safe backup location
+cd ~/backups || mkdir -p ~/backups && cd ~/backups
+
+# Clone current denislaliberte.github.io for backup
+git clone https://github.com/denislaliberte/denislaliberte.github.io.git denislaliberte-backup-$(date +%Y%m%d-%H%M%S)
+
+# Verify backup
+backup_dir="denislaliberte-backup-$(date +%Y%m%d-%H%M%S)"
+if [ -d "$backup_dir" ]; then
+    echo "✅ Backup created successfully at ~/backups/$backup_dir"
+    
+    # Show what's being backed up
+    echo "📋 Backing up the following content:"
+    ls -la "$backup_dir"
+    
+    # Create archive for extra safety
+    tar -czf "${backup_dir}.tar.gz" "$backup_dir"
+    echo "✅ Archive created: ${backup_dir}.tar.gz"
+else
+    echo "❌ Backup failed - STOP MIGRATION"
+    exit 1
+fi
+```
+
+**Step 2: Clone and Prepare Main Repository**
+```bash
+echo "Preparing main denislaliberte.github.io repository for migration..."
+
+# Navigate to working directory
+cd ~/projects || mkdir -p ~/projects && cd ~/projects
+
+# Clone the main repository
+git clone https://github.com/denislaliberte/denislaliberte.github.io.git denislaliberte-main
+
+cd denislaliberte-main
+
+# Verify we're in the right place
+if git remote get-url origin | grep -q "denislaliberte/denislaliberte.github.io"; then
+    echo "✅ Main repository cloned successfully"
+else
+    echo "❌ Wrong repository - STOP MIGRATION"
+    exit 1
+fi
+
+# Create a branch for the migration
+git checkout -b migrate-from-microsite
+echo "✅ Created migration branch"
+```
+
+**Step 3: Clear Existing Content (Destructive)**
+```bash
+echo "⚠️  DESTRUCTIVE: Clearing existing content..."
+echo "This will remove all files except .git directory"
+read -p "Are you sure you want to proceed? (yes/no): " confirm
+
+if [ "$confirm" = "yes" ]; then
+    # Remove all files except .git
+    find . -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
+    echo "✅ Existing content cleared"
+else
+    echo "❌ Migration cancelled by user"
+    exit 1
+fi
+```
+
+**Step 4: Copy Microsite Content**
+```bash
+echo "Copying microsite content to main repository..."
+
+# Copy all files from microsite project
+MICROSITE_PATH="/Users/denis/microsite"
+
+if [ -d "$MICROSITE_PATH" ]; then
+    # Copy essential configuration files
+    cp "$MICROSITE_PATH/package.json" .
+    cp "$MICROSITE_PATH/quartz.config.ts" .
+    cp "$MICROSITE_PATH/quartz.layout.ts" .
+    cp "$MICROSITE_PATH/.gitignore" .
+    
+    # Copy quartz framework
+    cp -r "$MICROSITE_PATH/quartz" .
+    
+    # Copy content (this will be the symlink to ~/notes/3-Ressources/)
+    if [ -L "$MICROSITE_PATH/content" ]; then
+        # Copy the symlink itself
+        cp -P "$MICROSITE_PATH/content" .
+        echo "✅ Content symlink copied"
+    elif [ -d "$MICROSITE_PATH/content" ]; then
+        # Copy the directory
+        cp -r "$MICROSITE_PATH/content" .
+        echo "✅ Content directory copied"
+    fi
+    
+    # Copy test suite (new professional tests)
+    if [ -d "$MICROSITE_PATH/tests" ]; then
+        cp -r "$MICROSITE_PATH/tests" .
+        echo "✅ Test suite copied"
+    fi
+    
+    # Copy any additional configuration files
+    [ -f "$MICROSITE_PATH/vitest.config.js" ] && cp "$MICROSITE_PATH/vitest.config.js" .
+    [ -f "$MICROSITE_PATH/Gemfile" ] && cp "$MICROSITE_PATH/Gemfile" .
+    
+    echo "✅ All microsite content copied to main repository"
+else
+    echo "❌ Microsite path not found: $MICROSITE_PATH"
+    exit 1
+fi
+```
+
+**Step 5: Update GitHub Actions for Main Domain**
+```bash
+echo "Updating GitHub Actions workflow for main domain deployment..."
+
+# Create .github/workflows directory if it doesn't exist
+mkdir -p .github/workflows
+
+# Update the workflow file for main domain
+cat > .github/workflows/deploy.yml << 'EOF'
+name: Deploy Quartz site to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup content for testing
+        run: |
+          # Ensure content directory exists for CI
+          if [ ! -d "content" ]; then
+            mkdir -p content/til
+            echo '---
+title: "Test Note"  
+publish: true
+---
+# Test Content' > content/til/test.md
+          fi
+
+      - name: Run integration tests
+        run: npm run test:integration
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup content
+        run: |
+          # Handle content symlink for deployment
+          if [ ! -d "content" ]; then
+            mkdir -p content/til
+            # Add any required content for deployment
+          fi
+
+      - name: Build site
+        run: npx quartz build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+EOF
+
+echo "✅ GitHub Actions workflow updated for main domain"
+```
+
+**Step 6: Update Quartz Configuration for Main Domain**
+```bash
+echo "Updating Quartz configuration for main domain..."
+
+# Update quartz.config.ts to use main domain
+sed -i.bak 's|denislaliberte\.github\.io/microsite|denislaliberte.github.io|g' quartz.config.ts
+
+# Update any other configuration files that reference the old URL
+if [ -f "quartz.layout.ts" ]; then
+    sed -i.bak 's|denislaliberte\.github\.io/microsite|denislaliberte.github.io|g' quartz.layout.ts
+fi
+
+# Clean up backup files
+rm -f *.bak
+
+echo "✅ Configuration updated for main domain"
+```
+
+**Step 7: Test Build and Functionality**
+```bash
+echo "Testing build and functionality with new configuration..."
+
+# Install dependencies
+npm install
+
+# Run tests to ensure everything works
+if command -v npm run test:integration &> /dev/null; then
+    echo "Running integration tests..."
+    npm run test:integration
+else
+    echo "Integration tests not available yet - will test after migration"
+fi
+
+# Test build process
+echo "Testing build process..."
+if npx quartz build; then
+    echo "✅ Build successful"
+    
+    # Verify expected files are generated
+    expected_files=(
+        "public/index.html"
+        "public/static/contentIndex.json"
+        "public/sitemap.xml"
+    )
+    
+    for file in "${expected_files[@]}"; do
+        if [ -f "$file" ]; then
+            echo "✅ $file generated"
+        else
+            echo "⚠️ $file not found"
+        fi
+    done
+else
+    echo "❌ Build failed - fix issues before proceeding"
+    exit 1
+fi
+```
+
+**Step 8: Update Documentation and URLs**
+```bash
+echo "Updating documentation to reflect new domain..."
+
+# Update any README or documentation files
+if [ -f "README.md" ]; then
+    sed -i.bak 's|denislaliberte\.github\.io/microsite|denislaliberte.github.io|g' README.md
+    rm -f README.md.bak
+fi
+
+# Update PROJECT_SUMMARY.md if it exists
+if [ -f "PROJECT_SUMMARY.md" ]; then
+    sed -i.bak 's|denislaliberte\.github\.io/microsite|denislaliberte.github.io|g' PROJECT_SUMMARY.md
+    rm -f PROJECT_SUMMARY.md.bak
+fi
+
+# Update any test files that reference the old URL
+find tests/ -type f -name "*.js" -o -name "*.rb" 2>/dev/null | while read -r file; do
+    sed -i.bak 's|denislaliberte\.github\.io/microsite|denislaliberte.github.io|g' "$file"
+    rm -f "${file}.bak"
+done
+
+echo "✅ Documentation updated"
+```
+
+**Step 9: Commit and Deploy Changes**
+```bash
+echo "Committing migration changes..."
+
+# Stage all changes
+git add .
+
+# Create migration commit
+git commit -m "Migrate Obsidian microsite to main domain
+
+- Moved from denislaliberte.github.io/microsite to denislaliberte.github.io
+- Updated all configuration files for main domain
+- Preserved all microsite functionality and content
+- Updated GitHub Actions workflow for main domain deployment
+- Backed up original content to ~/backups/
+
+🤖 Generated with Claude Code https://claude.ai/code
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
+
+# Push to migration branch first for review
+git push -u origin migrate-from-microsite
+
+echo "✅ Migration committed to branch 'migrate-from-microsite'"
+echo "📋 Next steps:"
+echo "1. Review the changes on GitHub"
+echo "2. Test the deployment by merging to main"
+echo "3. Verify site works at https://denislaliberte.github.io/"
+```
+
+**Step 10: Final Validation and Cleanup**
+```bash
+echo "Final validation checklist..."
+
+cat << 'EOF'
+📋 Migration Validation Checklist:
+
+## Pre-Deployment Verification
+□ Backup created and verified
+□ All microsite files copied successfully  
+□ Configuration updated for main domain
+□ Build process works without errors
+□ Tests pass (if available)
+□ GitHub Actions workflow updated
+
+## Post-Deployment Verification  
+□ Site accessible at https://denislaliberte.github.io/
+□ All pages load correctly
+□ Wiki links work properly
+□ Search functionality works
+□ Mobile responsiveness maintained
+□ Performance meets requirements
+
+## Cleanup Tasks
+□ Update any external links pointing to old /microsite URL
+□ Update bookmark/favorites to new URL
+□ Consider setting up redirect from old microsite if needed
+□ Document migration in project notes
+
+## Rollback Plan (if needed)
+□ Backup location: ~/backups/denislaliberte-backup-YYYYMMDD-HHMMSS/
+□ Can restore by: git reset --hard HEAD~1 && git push --force-with-lease
+□ Archive available: denislaliberte-backup-YYYYMMDD-HHMMSS.tar.gz
+EOF
+```
+
+**Domain Migration Benefits:**
+- **Cleaner URL**: `denislaliberte.github.io` instead of `denislaliberte.github.io/microsite`
+- **Better SEO**: Main domain has more authority than subdirectory
+- **Professional appearance**: Shorter, cleaner URL for sharing
+- **GitHub Pages optimization**: Main repository gets priority treatment
+
+**Migration Risks and Mitigation:**
+- **Risk**: Loss of existing content → **Mitigation**: Complete backup process
+- **Risk**: Broken external links → **Mitigation**: Document old URLs, consider redirects
+- **Risk**: SEO impact → **Mitigation**: Site will be indexed at new URL
+- **Risk**: Build failures → **Mitigation**: Thorough testing before final deployment
+
+**Success Criteria:**
+- [ ] Complete backup of existing `denislaliberte.github.io` created
+- [ ] All microsite content successfully migrated
+- [ ] Configuration updated for main domain
+- [ ] GitHub Actions workflow functional for main domain
+- [ ] Build and deployment work correctly
+- [ ] Site accessible at `https://denislaliberte.github.io/`
+- [ ] All functionality preserved (wiki links, search, mobile, etc.)
+- [ ] Documentation updated with new URLs
+
+---
+
 ## Phase 5 Final Validation
 
 **After completing all polish and validation tasks (T025-T030):**

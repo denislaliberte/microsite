@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+    <channel>
+      <title>My Obsidian Notes</title>
+      <link>https://denislaliberte.github.io/microsite</link>
+      <description>Last 10 notes on My Obsidian Notes</description>
+      <generator>Quartz -- quartz.jzhao.xyz</generator>
+      <item>
+    <title>index</title>
+    <link>https://denislaliberte.github.io/microsite/</link>
+    <guid>https://denislaliberte.github.io/microsite/</guid>
+    <description><![CDATA[ Welcome to My Notes Hello world! This is my Obsidian notes site built with Quartz. ]]></description>
+    <pubDate>Sat, 13 Sep 2025 01:15:38 GMT</pubDate>
+  </item><item>
+    <title>Note with Assets</title>
+    <link>https://denislaliberte.github.io/microsite/test/note-with-assets</link>
+    <guid>https://denislaliberte.github.io/microsite/test/note-with-assets</guid>
+    <description><![CDATA[ Note with Assets This note tests asset handling. Download PDF. ]]></description>
+    <pubDate>Fri, 12 Sep 2025 04:00:00 GMT</pubDate>
+  </item><item>
+    <title>Test Published Note</title>
+    <link>https://denislaliberte.github.io/microsite/test/published-note</link>
+    <guid>https://denislaliberte.github.io/microsite/test/published-note</guid>
+    <description><![CDATA[ Test Content Basic content for testing published note generation. ]]></description>
+    <pubDate>Fri, 12 Sep 2025 04:00:00 GMT</pubDate>
+  </item><item>
+    <title>TIL: Quartz for Publishing Obsidian Notes</title>
+    <link>https://denislaliberte.github.io/microsite/til/quartz-static-sites</link>
+    <guid>https://denislaliberte.github.io/microsite/til/quartz-static-sites</guid>
+    <description><![CDATA[ TIL: Quartz Static Sites Quartz converts Obsidian notes to websites. My Use Case Used Spec Kit workflow to plan this microsite setup. ]]></description>
+    <pubDate>Fri, 12 Sep 2025 04:00:00 GMT</pubDate>
+  </item><item>
+    <title>TIL: GitHub Spec Kit for Spec-Driven Development</title>
+    <link>https://denislaliberte.github.io/microsite/til/spec-kit</link>
+    <guid>https://denislaliberte.github.io/microsite/til/spec-kit</guid>
+    <description><![CDATA[ TIL: GitHub Spec Kit Today I learned about GitHub’s Spec Kit - structured prompts that guide LLMs to build the right thing. ]]></description>
+    <pubDate>Fri, 12 Sep 2025 04:00:00 GMT</pubDate>
+  </item>
+    </channel>
+  </rss>
