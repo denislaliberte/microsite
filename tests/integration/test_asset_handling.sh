@@ -112,41 +112,41 @@ echo "✅ Test assets created:"
 echo "   - ${TEST_ASSETS_DIR}/${IMG_FILE} (dummy PNG)"
 echo "   - ${TEST_DOCS_DIR}/${PDF_FILE} (dummy PDF)"
 
-# Create note that references these assets
-cat > "${TEST_FILE}" << EOF
----
-title: "Note with Asset References"
-publish: true
-tags: [test, assets]
-date: 2025-09-12
----
+# Use existing TIL content as base and add asset references
+cp "content/til/quartz-static-sites.md" "${TEST_FILE}"
+# Update the copied file to use test-specific title and add asset references
+sed -i '' 's/title: "TIL: Quartz for Publishing Obsidian Notes"/title: "Note with Asset References"/' "${TEST_FILE}"
+sed -i '' 's/tags: \[til, quartz, obsidian\]/tags: [test, assets]/' "${TEST_FILE}"
 
-# Note with Assets
+# Append asset references to the TIL content
+cat >> "${TEST_FILE}" << EOF
 
-This note references various types of assets that should be copied to the public directory.
+## Asset Testing
 
-## Image Reference
+This section tests asset handling capabilities.
+
+### Image Reference
 Here's an image embedded in the content:
 
 ![Test Screenshot](${ASSETS_DIR}/${IMG_FILE})
 
 The image should be copied to the public directory and the src attribute updated.
 
-## Document Reference
+### Document Reference
 Here's a link to a PDF document:
 
 [Download Guide](${DOCS_DIR}/${PDF_FILE})
 
 The PDF should be copied and the href attribute updated correctly.
 
-## Path Testing
+### Path Testing
 - Image path: \`${ASSETS_DIR}/${IMG_FILE}\`
 - Document path: \`${DOCS_DIR}/${PDF_FILE}\`
 
 **Test Requirements:**
 - Assets must be copied to public directory
 - HTML img src attributes must point to correct locations
-- HTML a href attributes must point to correct locations  
+- HTML a href attributes must point to correct locations
 - Directory structure must be preserved
 EOF
 

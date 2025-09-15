@@ -8,7 +8,3 @@
 
 ## How to Test
 [Manual testing steps to verify this change works as expected]
-
-🤖 Generated with [Claude Code](https://claude.ai/code)
-
-Co-Authored-By: Claude <noreply@anthropic.com>
