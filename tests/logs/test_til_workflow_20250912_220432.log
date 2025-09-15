@@ -1,0 +1,27 @@
+🧪 T010: Testing complete TIL workflow with bidirectional links
+📝 Creating complete TIL workflow content...
+✅ TIL workflow content created:
+   - content/test_til_workflow/2025-09-12-spec-kit.md (published TIL about Spec Kit)
+   - content/test_til_workflow/2025-09-12-quartz-static-sites.md (published TIL about Quartz)
+   - content/test_til_workflow/2025-09-12-private-thoughts.md (private TIL - should be excluded)
+🏗️ Running Quartz build...
+
+ Quartz v4.5.1  
+
+Cleaned output directory `public` in 42ms
+Found 57 input files from `content` in 15ms
+Parsing input files using 1 threads
+
+Warning: content/2025-cocktail/2025-09-planter-punch.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/daily.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/project.md isn't yet tracked by git, dates will be inaccurate
+
+
+ ERROR 
+
+ 
+Failed to process markdown `content/test_performance/note-1.md`: ENOENT: no such file or directory, open '/Users/denis/microsite/content/test_performance/note-1.md'
+❌ Build failed unexpectedly
+🧹 Cleaning up test TIL content...

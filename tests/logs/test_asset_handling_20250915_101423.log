@@ -1,0 +1,46 @@
+🧪 T009: Testing asset files copied to public directory
+📝 Creating test assets and content...
+✅ Test assets created:
+   - content/test_assets/assets/screenshot.png (dummy PNG)
+   - content/test_assets/documents/guide.pdf (dummy PDF)
+✅ Test note created: content/test_assets/note-with-assets.md
+🏗️ Running Quartz build...
+
+ Quartz v4.5.1  
+
+Cleaned output directory `public` in 22ms
+Found 11 input files from `content` in 12ms
+Parsing input files using 1 threads
+
+Warning: content/2025-cocktail/2025-09-planter-punch.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/daily.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/project.md isn't yet tracked by git, dates will be inaccurate
+Parsed 11 Markdown files in 330ms
+Filtered out 5 files in 66μs
+Emitting files
+Emitted 39 files to `public` in 1s
+Done processing 11 files in 1s
+🔍 Verifying HTML file was generated...
+✅ HTML file generated: public/test_assets/note-with-assets.html
+🔍 Checking if assets were copied to public directory...
+✅ Image asset copied: public/test_assets/assets/screenshot.png
+✅ PDF asset copied: public/test_assets/documents/guide.pdf
+🔍 Verifying directory structure preservation...
+✅ Directory structure preserved in public
+🔍 Checking HTML image src attributes...
+✅ Image src attribute updated correctly
+🔍 Checking HTML document href attributes...
+✅ Document href attribute updated correctly
+🔍 Verifying asset file integrity...
+✅ Asset file integrity preserved during copy
+
+🎉 SUCCESS: T009 - Asset files correctly copied and linked
+✅ Image copying: PNG files copied to public directory
+✅ Document copying: PDF files copied to public directory
+✅ Path preservation: Directory structure maintained
+✅ Link updates: HTML src/href attributes point to correct locations
+✅ File integrity: Assets copied without corruption
+
+🧹 Cleaning up test content...

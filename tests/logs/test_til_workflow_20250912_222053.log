@@ -1,0 +1,27 @@
+🧪 T010: Testing complete TIL workflow with bidirectional links
+📝 Creating complete TIL workflow content...
+✅ TIL workflow content created:
+   - content/test_til_workflow/2025-09-12-spec-kit.md (published TIL about Spec Kit)
+   - content/test_til_workflow/2025-09-12-quartz-static-sites.md (published TIL about Quartz)
+   - content/test_til_workflow/2025-09-12-private-thoughts.md (private TIL - should be excluded)
+🏗️ Running Quartz build...
+
+ Quartz v4.5.1  
+
+Cleaned output directory `public` in 20ms
+Found 13 input files from `content` in 13ms
+Parsing input files using 1 threads
+
+Warning: content/2025-cocktail/2025-09-planter-punch.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/daily.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/project.md isn't yet tracked by git, dates will be inaccurate
+Parsed 13 Markdown files in 399ms
+Filtered out 6 files in 73μs
+Emitting files
+Emitted 44 files to `public` in 1s
+Done processing 13 files in 1s
+🔍 Verifying published TIL notes generate HTML...
+❌ FAIL: Published TIL HTML not generated: public/test_til_workflow/2025-09-12-spec-kit/index.html
+🧹 Cleaning up test TIL content...

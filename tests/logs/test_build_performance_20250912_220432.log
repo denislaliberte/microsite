@@ -1,0 +1,61 @@
+🧪 T011: Testing build performance (<3 seconds - TDD strict target)
+📝 Generating 50 test notes with cross-links...
+   Generated 10/50 notes...
+   Generated 20/50 notes...
+   Generated 30/50 notes...
+   Generated 40/50 notes...
+   Generated 50/50 notes...
+✅ Generated 50 test notes with cross-links
+📊 Test data summary:
+   • Total notes: 50
+   • Expected published: ~40
+   • Expected unpublished: ~10
+   • Cross-links per note: 3-4
+
+⏱️ Starting timed build test...
+🏗️ Running: time npx quartz build
+
+ Quartz v4.5.1  
+
+Cleaned output directory `public` in 18ms
+Found 54 input files from `content` in 14ms
+Parsing input files using 1 threads
+
+Warning: content/2025-cocktail/2025-09-planter-punch.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/daily.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/project.md isn't yet tracked by git, dates will be inaccurate
+Parsed 54 Markdown files in 1s
+Filtered out 13 files in 97μs
+Emitting files
+Emitted 143 files to `public` in 6s
+Done processing 54 files in 7s
+        9.86 real        12.04 user         1.48 sys
+
+✅ Build completed successfully
+⏱️ Build duration: 9 seconds
+❌ Performance requirement FAILED: 9s > 3s
+🔧 NOTE: This strict threshold (3s) is intentionally unrealistic for TDD demonstration
+📊 Actual performance (9s) would pass normal requirement (<30s)
+
+🔍 Validating build output quality...
+📁 Generated HTML files:        1
+⚠️ WARNING: HTML file count (       1) doesn't match expected published notes (~40)
+This might indicate filtering issues at scale
+🔍 Testing cross-link resolution at scale...
+✅ Cross-links appear to be resolving correctly
+🔍 Checking build artifact completeness...
+✅ Essential build artifacts present
+
+❌ FAIL: T011 - Build performance does not meet requirements
+❌ Performance: 9s > 3s threshold
+⚠️ Scale: Processed 50 notes but too slowly
+📊 Performance deficit: 6s over threshold
+
+💡 Optimization suggestions:
+   • Review Quartz configuration for performance settings
+   • Check for unnecessary plugins or transformers
+   • Consider build caching options
+   • Profile build process for bottlenecks
+🧹 Cleaning up performance test content...

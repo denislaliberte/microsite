@@ -1,0 +1,41 @@
+🧪 T007: Testing unpublished notes excluded from build
+📝 Creating test unpublished notes...
+✅ Unpublished test notes created:
+   - content/test_unpublished/test-unpublished-false.md (publish: false)
+   - content/test_unpublished/test-unpublished-missing.md (no publish field)
+🏗️ Running Quartz build...
+
+ Quartz v4.5.1  
+
+Cleaned output directory `public` in 18ms
+Found 6 input files from `content` in 13ms
+Parsing input files using 1 threads
+
+Warning: content/2025-cocktail/2025-09-planter-punch.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/daily.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/project.md isn't yet tracked by git, dates will be inaccurate
+Parsed 6 Markdown files in 384ms
+Filtered out 5 files in 66μs
+Emitting files
+Emitted 15 files to `public` in 320ms
+Done processing 6 files in 737ms
+🔍 Verifying HTML files are NOT generated...
+✅ publish: false note correctly excluded from HTML generation
+✅ Note without publish field correctly excluded from HTML generation
+🔍 Checking exclusion from search index...
+✅ Unpublished content excluded from search index
+🔍 Checking exclusion from sitemap...
+✅ Unpublished content excluded from sitemap
+🔍 Verifying complete exclusion from public directory...
+✅ Complete exclusion verified - no traces in public directory
+
+🎉 SUCCESS: T007 - Unpublished notes correctly excluded from build
+✅ publish: false exclusion: No HTML generated
+✅ Missing publish exclusion: No HTML generated
+✅ Search index exclusion: Content not searchable
+✅ Sitemap exclusion: URLs not in sitemap
+✅ Complete exclusion: No traces in public directory
+
+🧹 Cleaning up test content...

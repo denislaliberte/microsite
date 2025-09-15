@@ -1,0 +1,13 @@
+TDD Test Suite Results - Fri 12 Sep 2025 22:20:53 EDT
+====================================
+
+❌ FAIL: test_asset_handling
+❌ FAIL: test_build_performance
+❌ FAIL: test_published_notes
+❌ FAIL: test_til_workflow
+❌ FAIL: test_unpublished_notes
+❌ FAIL: test_wiki_links
+
+Summary: 0/6 tests passed (0%)
+Timestamp: Fri 12 Sep 2025 22:21:24 EDT
+Status: Full TDD mode

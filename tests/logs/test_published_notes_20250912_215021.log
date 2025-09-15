@@ -1,0 +1,47 @@
+🧪 T006: Testing published markdown generates HTML files
+📝 Creating test published note...
+✅ Test note created: content/test_content/test-published-note.md
+🏗️ Running Quartz build...
+
+ Quartz v4.5.1  
+
+Cleaned output directory `public` in 20ms
+Found 6 input files from `content` in 13ms
+Parsing input files using 1 threads
+
+Warning: content/2025-cocktail/2025-09-planter-punch.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/daily.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/project.md isn't yet tracked by git, dates will be inaccurate
+Parsed 6 Markdown files in 350ms
+Filtered out 3 files in 62μs
+Emitting files
+Emitted 26 files to `public` in 623ms
+Done processing 6 files in 1s
+🔍 Checking if HTML file was generated...
+✅ HTML file generated: public/test_content/index.html
+🔍 Validating HTML content...
+❌ FAIL: Original markdown content not found in HTML
+📄 HTML content preview:
+<!DOCTYPE html>
+<html lang="en"><head><title>Folder: test_content</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="My Obsidian Notes"/><meta property="og:title" content="Folder: test_content"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="Folder: test_content"/><meta name="twitter:description" content="No description provided"/><meta property="og:description" content="No description provided"/><meta property="og:image:alt" content="No description provided"/><meta property="twitter:domain" content="quartz.jzhao.xyz"/><meta property="og:url" content="https://quartz.jzhao.xyz/test_content/index"/><meta property="twitter:url" content="https://quartz.jzhao.xyz/test_content/index"/><link rel="icon" href="../static/icon.png"/><meta name="description" content="No description provided"/><meta name="generator" content="Quartz"/><link href="../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+🧹 Cleaning up test content...

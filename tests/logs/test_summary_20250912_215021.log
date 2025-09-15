@@ -1,0 +1,7 @@
+TDD Test Suite Results - Fri 12 Sep 2025 21:50:21 EDT
+====================================
+
+❌ FAIL: test_asset_handling
+✅ PASS: test_build_performance
+❌ FAIL: test_published_notes
+❌ FAIL: test_til_workflow

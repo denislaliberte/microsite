@@ -1,0 +1,6 @@
+🧪 T007: Testing unpublished notes excluded from build (TDD failure mode)
+📝 Creating test unpublished notes...
+✅ Test notes created (both with publish: true for TDD failure mode):
+   - content/test_unpublished/test-unpublished-false.md (publish: true, but test expects exclusion)
+   - content/test_unpublished/test-unpublished-missing.md (publish: true, but test expects exclusion)
+🏗️ Running Quartz build...

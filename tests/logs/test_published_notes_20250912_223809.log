@@ -1,0 +1,37 @@
+🧪 T006: Testing published markdown generates HTML files
+📝 Creating test published note...
+✅ Test note created: content/test_content/test-published-note.md
+🏗️ Running Quartz build...
+
+ Quartz v4.5.1  
+
+Cleaned output directory `public` in 19ms
+Found 11 input files from `content` in 12ms
+Parsing input files using 1 threads
+
+Warning: content/2025-cocktail/2025-09-planter-punch.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/daily.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/project.md isn't yet tracked by git, dates will be inaccurate
+Parsed 11 Markdown files in 315ms
+Filtered out 5 files in 57μs
+Emitting files
+Emitted 38 files to `public` in 1000ms
+Done processing 11 files in 1s
+🔍 Checking if HTML file was generated...
+✅ HTML file generated: public/test_content/test-published-note.html
+🔍 Validating HTML content...
+✅ Original content preserved in HTML
+🔍 Checking for metadata processing...
+✅ Metadata processed correctly
+🔍 Verifying file structure...
+✅ Directory structure maintained
+
+🎉 SUCCESS: T006 - Published markdown correctly generates HTML files
+✅ HTML file generation: public/test_content/test-published-note.html
+✅ Content preservation: Original markdown → HTML
+✅ Metadata processing: Title and frontmatter handled
+✅ File structure: Directory organization maintained
+
+🧹 Cleaning up test content...

@@ -1,0 +1,29 @@
+🧪 T007: Testing unpublished notes excluded from build (TDD failure mode)
+📝 Creating test unpublished notes...
+✅ Test notes created (both with publish: true for TDD failure mode):
+   - content/test_unpublished/test-unpublished-false.md (publish: true, but test expects exclusion)
+   - content/test_unpublished/test-unpublished-missing.md (publish: true, but test expects exclusion)
+🏗️ Running Quartz build...
+
+ Quartz v4.5.1  
+
+Cleaned output directory `public` in 18ms
+Found 11 input files from `content` in 13ms
+Parsing input files using 1 threads
+
+Warning: content/2025-cocktail/2025-09-planter-punch.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/daily.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/project.md isn't yet tracked by git, dates will be inaccurate
+Parsed 11 Markdown files in 369ms
+Filtered out 5 files in 72μs
+Emitting files
+Emitted 36 files to `public` in 1s
+Done processing 11 files in 2s
+🔍 Verifying HTML files are NOT generated...
+✅ publish: false note correctly excluded from HTML generation
+✅ Note without publish field correctly excluded from HTML generation
+🔍 Checking exclusion from search index...
+❌ FAIL: Unpublished content found in search index
+🧹 Cleaning up test content...

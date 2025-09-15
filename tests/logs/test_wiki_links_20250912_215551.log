@@ -1,0 +1,27 @@
+🧪 T008: Testing wiki links convert to HTML links
+📝 Creating test notes with wiki links...
+✅ Test notes created with wiki links:
+   - content/test_wikilinks/source-note.md (contains wiki links)
+   - content/test_wikilinks/target-note.md (target for links)
+   - content/test_wikilinks/nested/deep-note.md (nested target)
+🏗️ Running Quartz build...
+
+ Quartz v4.5.1  
+
+Cleaned output directory `public` in 11ms
+Found 7 input files from `content` in 28ms
+Parsing input files using 1 threads
+
+Warning: content/2025-cocktail/2025-09-planter-punch.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/daily.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/project.md isn't yet tracked by git, dates will be inaccurate
+Parsed 7 Markdown files in 339ms
+Filtered out 3 files in 49μs
+Emitting files
+Emitted 28 files to `public` in 684ms
+Done processing 7 files in 1s
+🔍 Verifying HTML files were generated...
+❌ FAIL: Expected HTML file not found: public/test_wikilinks/source-note/index.html
+🧹 Cleaning up test content...

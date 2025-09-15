@@ -1,0 +1,45 @@
+🧪 T008: Testing wiki links convert to HTML links
+📝 Creating test notes with wiki links...
+✅ Test notes created with wiki links:
+   - content/test_wikilinks/source-note.md (contains wiki links)
+   - content/test_wikilinks/target-note.md (target for links)
+   - content/test_wikilinks/nested/deep-note.md (nested target)
+🏗️ Running Quartz build...
+
+ Quartz v4.5.1  
+
+Cleaned output directory `public` in 24ms
+Found 13 input files from `content` in 15ms
+Parsing input files using 1 threads
+
+Warning: content/2025-cocktail/2025-09-planter-punch.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/daily.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/project.md isn't yet tracked by git, dates will be inaccurate
+Parsed 13 Markdown files in 441ms
+Filtered out 5 files in 86μs
+Emitting files
+Emitted 46 files to `public` in 2s
+Done processing 13 files in 2s
+🔍 Verifying HTML files were generated...
+✅ All HTML files generated correctly
+🔍 Checking basic wiki link conversion...
+✅ Basic wiki link converted to HTML href
+🔍 Checking custom text preservation...
+✅ Custom link text preserved correctly
+🔍 Checking nested path resolution...
+✅ Nested path wiki links resolved correctly
+🔍 Checking for backlinks functionality...
+✅ Backlinks component appears to be working
+🔍 Verifying link accessibility...
+✅ Wiki links converted to proper HTML anchor tags
+
+🎉 SUCCESS: T008 - Wiki links correctly convert to HTML links
+✅ Basic conversion: [[target-note]] → HTML href
+✅ Custom text: [[target|text]] → <a href="...">text</a>
+✅ Nested paths: [[nested/deep-note]] → correct path resolution
+✅ HTML structure: Proper <a> tags with href attributes
+⚠️ Backlinks: May need ObsidianFlavoredMarkdown plugin configuration
+
+🧹 Cleaning up test content...

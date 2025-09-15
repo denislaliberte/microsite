@@ -1,0 +1,6 @@
+🧪 T007: Testing unpublished notes excluded from build
+📝 Creating test unpublished notes...
+✅ Unpublished test notes created:
+   - content/test_unpublished/test-unpublished-false.md (publish: false)
+   - content/test_unpublished/test-unpublished-missing.md (no publish field)
+🏗️ Running Quartz build...

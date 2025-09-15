@@ -1,0 +1,55 @@
+🧪 T010: Testing complete TIL workflow with bidirectional links
+📝 Creating complete TIL workflow content...
+✅ TIL workflow content created:
+   - content/test_til_workflow/2025-09-12-spec-kit.md (published TIL about Spec Kit)
+   - content/test_til_workflow/2025-09-12-quartz-static-sites.md (published TIL about Quartz)
+   - content/test_til_workflow/2025-09-12-private-thoughts.md (private TIL - should be excluded)
+🏗️ Running Quartz build...
+
+ Quartz v4.5.1  
+
+Cleaned output directory `public` in 24ms
+Found 13 input files from `content` in 15ms
+Parsing input files using 1 threads
+
+Warning: content/2025-cocktail/2025-09-planter-punch.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/daily.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/project.md isn't yet tracked by git, dates will be inaccurate
+Parsed 13 Markdown files in 460ms
+Filtered out 6 files in 94μs
+Emitting files
+Emitted 44 files to `public` in 1s
+Done processing 13 files in 2s
+🔍 Verifying published TIL notes generate HTML...
+✅ Published TIL notes generated HTML correctly
+🔍 Verifying private TIL note is excluded...
+✅ Private TIL note correctly excluded from build
+🔍 Testing bidirectional wiki links...
+✅ Forward link: Spec Kit → Quartz working
+✅ Reverse link: Quartz → Spec Kit working
+🔍 Checking for backlinks functionality...
+✅ Backlinks functionality appears to be working
+🔍 Verifying tag page generation...
+✅ Tag pages appear to be generated
+🔍 Validating content quality...
+✅ Essential content preserved in HTML output
+🔍 Testing search exclusion of private content...
+✅ Private content excluded from search index
+
+🎉 SUCCESS: T010 - Complete TIL workflow functions correctly
+✅ Published filtering: Only publish: true notes generate HTML
+✅ Unpublished filtering: publish: false notes completely excluded
+✅ Bidirectional links: Wiki links work in both directions
+✅ Content preservation: Meaningful content maintained in HTML
+✅ Search exclusion: Private content not searchable
+⚠️ Backlinks & Tags: May need additional plugin configuration
+
+📊 TIL Workflow Summary:
+   • 2 published TIL notes → 2 HTML pages generated
+   • 1 private TIL note → correctly excluded from build
+   • Bidirectional wiki links functioning
+   • Content integrity maintained throughout process
+
+🧹 Cleaning up test TIL content...

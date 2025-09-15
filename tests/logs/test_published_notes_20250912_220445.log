@@ -1,0 +1,36 @@
+🧪 T006: Testing published markdown generates HTML files
+📝 Creating test published note...
+✅ Test note created: content/test_content/test-published-note.md
+🏗️ Running Quartz build...
+
+ Quartz v4.5.1  
+
+Cleaned output directory `public` in 10ms
+Found 7 input files from `content` in 17ms
+Parsing input files using 1 threads
+
+Warning: content/2025-cocktail/2025-09-planter-punch.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/daily.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/project.md isn't yet tracked by git, dates will be inaccurate
+Parsed 7 Markdown files in 340ms
+Filtered out 3 files in 50μs
+Emitting files
+
+
+ ERROR 
+
+ Failed to emit from plugin `TagPage`: ENOENT: no such file or directory, mkdir 'public/tags'
+     at Object.mkdir (node:internal/fs/promises:861:10)
+     at write (../plugins/emitters/helpers.ts:17:3)
+     at Object.emit (../plugins/emitters/tagPage.tsx:130:9)
+     at ../processors/emit.ts:24:28
+     at async Promise.all (index 4)
+     at emitContent (../processors/emit.ts:18:3)
+     at buildQuartz (../build.ts:87:3)
+     at default (../build.ts:301:12)
+     at build (file:///Users/denis/microsite/quartz/cli/handlers.js:342:20)
+     at handleBuild (file:///Users/denis/microsite/quartz/cli/handlers.js:466:5)
+❌ Build failed - this might be expected if ExplicitPublish filter not configured
+🧹 Cleaning up test content...

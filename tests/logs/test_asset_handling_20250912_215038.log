@@ -1,0 +1,27 @@
+🧪 T009: Testing asset files copied to public directory
+📝 Creating test assets and content...
+✅ Test assets created:
+   - content/test_assets/assets/screenshot.png (dummy PNG)
+   - content/test_assets/documents/guide.pdf (dummy PDF)
+✅ Test note created: content/test_assets/note-with-assets.md
+🏗️ Running Quartz build...
+
+ Quartz v4.5.1  
+
+Cleaned output directory `public` in 15ms
+Found 8 input files from `content` in 12ms
+Parsing input files using 1 threads
+
+Warning: content/2025-cocktail/2025-09-planter-punch.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/daily.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/project.md isn't yet tracked by git, dates will be inaccurate
+Parsed 8 Markdown files in 390ms
+Filtered out 4 files in 59μs
+Emitting files
+Emitted 37 files to `public` in 788ms
+Done processing 8 files in 1s
+🔍 Verifying HTML file was generated...
+❌ FAIL: Expected HTML file not found: public/test_assets/note-with-assets/index.html
+🧹 Cleaning up test content...

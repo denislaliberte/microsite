@@ -1,0 +1,26 @@
+🧪 T007: Testing unpublished notes excluded from build (TDD failure mode)
+📝 Creating test unpublished notes...
+✅ Test notes created (both with publish: true for TDD failure mode):
+   - content/test_unpublished/test-unpublished-false.md (publish: true, but test expects exclusion)
+   - content/test_unpublished/test-unpublished-missing.md (publish: true, but test expects exclusion)
+🏗️ Running Quartz build...
+
+ Quartz v4.5.1  
+
+Cleaned output directory `public` in 10ms
+Found 7 input files from `content` in 28ms
+Parsing input files using 1 threads
+
+Warning: content/2025-cocktail/2025-09-planter-punch.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/daily.md isn't yet tracked by git, dates will be inaccurate
+
+Warning: content/2025-templates/project.md isn't yet tracked by git, dates will be inaccurate
+
+
+ ERROR 
+
+ 
+Failed to process markdown `content/test_content/test-published-note.md`: ENOENT: no such file or directory, open '/Users/denis/microsite/content/test_content/test-published-note.md'
+❌ Build failed unexpectedly
+🧹 Cleaning up test content...
