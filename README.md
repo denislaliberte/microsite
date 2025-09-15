@@ -58,6 +58,10 @@ microsite/
 
 4. **Preview locally** (optional)
    ```bash
+   # Option 1: Use built-in bin script (recommended)
+   ./bin/server 8080
+
+   # Option 2: Manual server
    cd public && python3 -m http.server 8080
    # Open http://localhost:8080 in your browser
    ```
@@ -92,7 +96,7 @@ microsite/
 3. **Build and test locally**:
    ```bash
    npx quartz build
-   cd public && python3 -m http.server 8080
+   ./bin/server 8080  # Start development server
    ```
 
 4. **Commit and push** (triggers automatic deployment):
@@ -161,6 +165,76 @@ The site uses `ExplicitPublish` filtering:
 - ✅ **Mobile Responsive**: Works on all device sizes
 - ✅ **Dark/Light Mode**: Theme switching
 - ✅ **Wiki Links**: Bidirectional linking between notes
+
+## Scripts & Commands
+
+The microsite includes convenient scripts in the `bin/` directory:
+
+### Development Scripts
+
+#### `./bin/build [options]`
+Enhanced build script with multiple options:
+```bash
+./bin/build                    # Standard build
+./bin/build --clean            # Clean cache first
+./bin/build --serve            # Build and start server
+./bin/build --test             # Build and run tests
+./bin/build --clean --serve --test  # Full workflow
+```
+
+**Features:**
+- Intelligent build process with timing
+- Optional cache cleaning
+- Build validation and summary
+- Integrated testing
+- Automatic server startup
+- Build size reporting
+
+#### `./bin/server [port]`
+Start a development server to preview your site locally:
+```bash
+./bin/server          # Starts on port 3000
+./bin/server 8080     # Starts on port 8080
+```
+
+**Features:**
+- Hot reloading during development
+- Serves built content from `public/`
+- Easy port customization
+- Clear startup messages with URLs
+
+#### `./bin/test`
+Run the comprehensive TDD test suite:
+```bash
+./bin/test
+```
+
+**Features:**
+- Runs all integration tests
+- Colored output with pass/fail status
+- Detailed logging to `tests/logs/`
+- Pass rate calculation
+- TDD mode analysis
+
+### Common Development Commands
+
+```bash
+# Full development cycle (recommended)
+./bin/build --clean --serve --test  # Clean, build, test, and serve
+
+# Quick workflows
+./bin/build --serve                 # Build and preview
+./bin/build --test                  # Build and test
+./bin/build                         # Build only
+
+# Manual steps
+npx quartz build                    # Direct Quartz build
+./bin/server 8080                   # Preview on port 8080
+./bin/test                          # Run test suite
+
+# Deployment
+git add . && git commit -m "Updates" && git push origin v4
+```
 
 ## Deployment
 

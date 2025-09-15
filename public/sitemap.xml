@@ -1,4 +1,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml"><url>
+    <loc>https://denislaliberte.github.io/microsite/how-to/github-pages-configuration</loc>
+    <lastmod>2025-09-15T16:35:10.000Z</lastmod>
+  </url><url>
     <loc>https://denislaliberte.github.io/microsite/</loc>
     <lastmod>2025-09-13T01:15:38.000Z</lastmod>
   </url><url>
@@ -13,7 +16,4 @@
   </url><url>
     <loc>https://denislaliberte.github.io/microsite/til/spec-kit</loc>
     <lastmod>2025-09-12T04:00:00.000Z</lastmod>
-  </url><url>
-    <loc>https://denislaliberte.github.io/microsite/how-to/github-pages-configuration</loc>
-    <lastmod>2025-09-15T16:27:24.940Z</lastmod>
   </url></urlset>

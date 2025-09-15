@@ -1238,407 +1238,77 @@ npm set-script test:ci "vitest run --reporter=verbose"
 
 ---
 
-### T033: Migrate from denislaliberte.github.io/microsite to denislaliberte.github.io
+### T033: Execute domain migration to denislaliberte.github.io
 **Status**: 🟡 Pending  
 **Type**: Sequential  
-**File Target**: Repository migration and domain setup  
-**Validates**: Production domain configuration
+**File Target**: Complete domain migration  
+**Validates**: Production-ready main domain deployment
 
 **What to implement:**
-Migrate the microsite from the subdirectory `/microsite` to the main GitHub Pages domain `denislaliberte.github.io` by backing up existing content and replacing it with the microsite.
-
-**⚠️ CRITICAL: Backup and Migration Process**
-This is a destructive operation that will replace the existing `denislaliberte.github.io` repository content. Proper backup is essential.
-
-**Step 1: Backup Existing Repository**
-```bash
-echo "Creating backup of existing denislaliberte.github.io repository..."
-
-# Navigate to a safe backup location
-cd ~/backups || mkdir -p ~/backups && cd ~/backups
-
-# Clone current denislaliberte.github.io for backup
-git clone https://github.com/denislaliberte/denislaliberte.github.io.git denislaliberte-backup-$(date +%Y%m%d-%H%M%S)
-
-# Verify backup
-backup_dir="denislaliberte-backup-$(date +%Y%m%d-%H%M%S)"
-if [ -d "$backup_dir" ]; then
-    echo "✅ Backup created successfully at ~/backups/$backup_dir"
-    
-    # Show what's being backed up
-    echo "📋 Backing up the following content:"
-    ls -la "$backup_dir"
-    
-    # Create archive for extra safety
-    tar -czf "${backup_dir}.tar.gz" "$backup_dir"
-    echo "✅ Archive created: ${backup_dir}.tar.gz"
-else
-    echo "❌ Backup failed - STOP MIGRATION"
-    exit 1
-fi
-```
-
-**Step 2: Clone and Prepare Main Repository**
-```bash
-echo "Preparing main denislaliberte.github.io repository for migration..."
-
-# Navigate to working directory
-cd ~/projects || mkdir -p ~/projects && cd ~/projects
-
-# Clone the main repository
-git clone https://github.com/denislaliberte/denislaliberte.github.io.git denislaliberte-main
-
-cd denislaliberte-main
-
-# Verify we're in the right place
-if git remote get-url origin | grep -q "denislaliberte/denislaliberte.github.io"; then
-    echo "✅ Main repository cloned successfully"
-else
-    echo "❌ Wrong repository - STOP MIGRATION"
-    exit 1
-fi
-
-# Create a branch for the migration
-git checkout -b migrate-from-microsite
-echo "✅ Created migration branch"
-```
-
-**Step 3: Clear Existing Content (Destructive)**
-```bash
-echo "⚠️  DESTRUCTIVE: Clearing existing content..."
-echo "This will remove all files except .git directory"
-read -p "Are you sure you want to proceed? (yes/no): " confirm
-
-if [ "$confirm" = "yes" ]; then
-    # Remove all files except .git
-    find . -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
-    echo "✅ Existing content cleared"
-else
-    echo "❌ Migration cancelled by user"
-    exit 1
-fi
-```
-
-**Step 4: Copy Microsite Content**
-```bash
-echo "Copying microsite content to main repository..."
-
-# Copy all files from microsite project
-MICROSITE_PATH="/Users/denis/microsite"
-
-if [ -d "$MICROSITE_PATH" ]; then
-    # Copy essential configuration files
-    cp "$MICROSITE_PATH/package.json" .
-    cp "$MICROSITE_PATH/quartz.config.ts" .
-    cp "$MICROSITE_PATH/quartz.layout.ts" .
-    cp "$MICROSITE_PATH/.gitignore" .
-    
-    # Copy quartz framework
-    cp -r "$MICROSITE_PATH/quartz" .
-    
-    # Copy content (this will be the symlink to ~/notes/3-Ressources/)
-    if [ -L "$MICROSITE_PATH/content" ]; then
-        # Copy the symlink itself
-        cp -P "$MICROSITE_PATH/content" .
-        echo "✅ Content symlink copied"
-    elif [ -d "$MICROSITE_PATH/content" ]; then
-        # Copy the directory
-        cp -r "$MICROSITE_PATH/content" .
-        echo "✅ Content directory copied"
-    fi
-    
-    # Copy test suite (new professional tests)
-    if [ -d "$MICROSITE_PATH/tests" ]; then
-        cp -r "$MICROSITE_PATH/tests" .
-        echo "✅ Test suite copied"
-    fi
-    
-    # Copy any additional configuration files
-    [ -f "$MICROSITE_PATH/vitest.config.js" ] && cp "$MICROSITE_PATH/vitest.config.js" .
-    [ -f "$MICROSITE_PATH/Gemfile" ] && cp "$MICROSITE_PATH/Gemfile" .
-    
-    echo "✅ All microsite content copied to main repository"
-else
-    echo "❌ Microsite path not found: $MICROSITE_PATH"
-    exit 1
-fi
-```
-
-**Step 5: Update GitHub Actions for Main Domain**
-```bash
-echo "Updating GitHub Actions workflow for main domain deployment..."
-
-# Create .github/workflows directory if it doesn't exist
-mkdir -p .github/workflows
-
-# Update the workflow file for main domain
-cat > .github/workflows/deploy.yml << 'EOF'
-name: Deploy Quartz site to GitHub Pages
-
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Setup content for testing
-        run: |
-          # Ensure content directory exists for CI
-          if [ ! -d "content" ]; then
-            mkdir -p content/til
-            echo '---
-title: "Test Note"  
-publish: true
----
-# Test Content' > content/til/test.md
-          fi
-
-      - name: Run integration tests
-        run: npm run test:integration
-
-  build:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Setup content
-        run: |
-          # Handle content symlink for deployment
-          if [ ! -d "content" ]; then
-            mkdir -p content/til
-            # Add any required content for deployment
-          fi
-
-      - name: Build site
-        run: npx quartz build
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: public
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-EOF
-
-echo "✅ GitHub Actions workflow updated for main domain"
-```
-
-**Step 6: Update Quartz Configuration for Main Domain**
-```bash
-echo "Updating Quartz configuration for main domain..."
-
-# Update quartz.config.ts to use main domain
-sed -i.bak 's|denislaliberte\.github\.io/microsite|denislaliberte.github.io|g' quartz.config.ts
-
-# Update any other configuration files that reference the old URL
-if [ -f "quartz.layout.ts" ]; then
-    sed -i.bak 's|denislaliberte\.github\.io/microsite|denislaliberte.github.io|g' quartz.layout.ts
-fi
-
-# Clean up backup files
-rm -f *.bak
-
-echo "✅ Configuration updated for main domain"
-```
-
-**Step 7: Test Build and Functionality**
-```bash
-echo "Testing build and functionality with new configuration..."
-
-# Install dependencies
-npm install
-
-# Run tests to ensure everything works
-if command -v npm run test:integration &> /dev/null; then
-    echo "Running integration tests..."
-    npm run test:integration
-else
-    echo "Integration tests not available yet - will test after migration"
-fi
-
-# Test build process
-echo "Testing build process..."
-if npx quartz build; then
-    echo "✅ Build successful"
-    
-    # Verify expected files are generated
-    expected_files=(
-        "public/index.html"
-        "public/static/contentIndex.json"
-        "public/sitemap.xml"
-    )
-    
-    for file in "${expected_files[@]}"; do
-        if [ -f "$file" ]; then
-            echo "✅ $file generated"
-        else
-            echo "⚠️ $file not found"
-        fi
-    done
-else
-    echo "❌ Build failed - fix issues before proceeding"
-    exit 1
-fi
-```
-
-**Step 8: Update Documentation and URLs**
-```bash
-echo "Updating documentation to reflect new domain..."
-
-# Update any README or documentation files
-if [ -f "README.md" ]; then
-    sed -i.bak 's|denislaliberte\.github\.io/microsite|denislaliberte.github.io|g' README.md
-    rm -f README.md.bak
-fi
-
-# Update PROJECT_SUMMARY.md if it exists
-if [ -f "PROJECT_SUMMARY.md" ]; then
-    sed -i.bak 's|denislaliberte\.github\.io/microsite|denislaliberte.github.io|g' PROJECT_SUMMARY.md
-    rm -f PROJECT_SUMMARY.md.bak
-fi
-
-# Update any test files that reference the old URL
-find tests/ -type f -name "*.js" -o -name "*.rb" 2>/dev/null | while read -r file; do
-    sed -i.bak 's|denislaliberte\.github\.io/microsite|denislaliberte.github.io|g' "$file"
-    rm -f "${file}.bak"
-done
-
-echo "✅ Documentation updated"
-```
-
-**Step 9: Commit and Deploy Changes**
-```bash
-echo "Committing migration changes..."
-
-# Stage all changes
-git add .
-
-# Create migration commit
-git commit -m "Migrate Obsidian microsite to main domain
-
-- Moved from denislaliberte.github.io/microsite to denislaliberte.github.io
-- Updated all configuration files for main domain
-- Preserved all microsite functionality and content
-- Updated GitHub Actions workflow for main domain deployment
-- Backed up original content to ~/backups/
-
-🤖 Generated with Claude Code https://claude.ai/code
-
-Co-Authored-By: Claude <noreply@anthropic.com>"
-
-# Push to migration branch first for review
-git push -u origin migrate-from-microsite
-
-echo "✅ Migration committed to branch 'migrate-from-microsite'"
-echo "📋 Next steps:"
-echo "1. Review the changes on GitHub"
-echo "2. Test the deployment by merging to main"
-echo "3. Verify site works at https://denislaliberte.github.io/"
-```
-
-**Step 10: Final Validation and Cleanup**
-```bash
-echo "Final validation checklist..."
-
-cat << 'EOF'
-📋 Migration Validation Checklist:
-
-## Pre-Deployment Verification
-□ Backup created and verified
-□ All microsite files copied successfully  
-□ Configuration updated for main domain
-□ Build process works without errors
-□ Tests pass (if available)
-□ GitHub Actions workflow updated
-
-## Post-Deployment Verification  
-□ Site accessible at https://denislaliberte.github.io/
-□ All pages load correctly
-□ Wiki links work properly
-□ Search functionality works
-□ Mobile responsiveness maintained
-□ Performance meets requirements
-
-## Cleanup Tasks
-□ Update any external links pointing to old /microsite URL
-□ Update bookmark/favorites to new URL
-□ Consider setting up redirect from old microsite if needed
-□ Document migration in project notes
-
-## Rollback Plan (if needed)
-□ Backup location: ~/backups/denislaliberte-backup-YYYYMMDD-HHMMSS/
-□ Can restore by: git reset --hard HEAD~1 && git push --force-with-lease
-□ Archive available: denislaliberte-backup-YYYYMMDD-HHMMSS.tar.gz
-EOF
-```
-
-**Domain Migration Benefits:**
-- **Cleaner URL**: `denislaliberte.github.io` instead of `denislaliberte.github.io/microsite`
-- **Better SEO**: Main domain has more authority than subdirectory
-- **Professional appearance**: Shorter, cleaner URL for sharing
-- **GitHub Pages optimization**: Main repository gets priority treatment
-
-**Migration Risks and Mitigation:**
-- **Risk**: Loss of existing content → **Mitigation**: Complete backup process
-- **Risk**: Broken external links → **Mitigation**: Document old URLs, consider redirects
-- **Risk**: SEO impact → **Mitigation**: Site will be indexed at new URL
-- **Risk**: Build failures → **Mitigation**: Thorough testing before final deployment
-
-**Success Criteria:**
-- [ ] Complete backup of existing `denislaliberte.github.io` created
-- [ ] All microsite content successfully migrated
-- [ ] Configuration updated for main domain
-- [ ] GitHub Actions workflow functional for main domain
-- [ ] Build and deployment work correctly
+Execute the strategic migration from `/microsite` subdirectory to main GitHub Pages domain following the comprehensive migration plan.
+
+**📋 Migration Overview:**
+This task implements the domain migration strategy to move the Obsidian microsite from `denislaliberte.github.io/microsite` to `denislaliberte.github.io` as the primary site.
+
+**🎯 Strategic Objectives:**
+- Establish professional web presence at main domain
+- Maintain all existing functionality and performance
+- Ensure zero data loss through comprehensive backup
+- Preserve SEO potential and user experience improvements
+
+**📖 Detailed Migration Plan:**
+See: [`migration-plan.md`](../migration-plan.md) for complete strategic guidance including:
+
+- **Risk Assessment**: Impact analysis and mitigation strategies
+- **Migration Phases**: A-D with timing and focus areas  
+- **Technical Considerations**: Domain configuration and URL structure changes
+- **Rollback Procedures**: Complete safety measures and recovery plans
+- **Success Criteria**: Validation checkpoints and quality gates
+
+**⚡ Migration Execution Phases:**
+
+**Phase A: Preparation & Backup** (15-20 min)
+- Create timestamped backup of existing main repository
+- Verify backup integrity and prepare migration workspace
+- Document current state for rollback reference
+
+**Phase B: Content Migration** (20-30 min)  
+- Transfer all microsite files and configurations to main repository
+- Update domain references throughout codebase
+- Preserve content symlinks and test suite
+
+**Phase C: Testing & Validation** (15-25 min)
+- Execute professional test suite on new domain configuration
+- Verify build process and core functionality
+- Validate GitHub Actions workflow for main domain
+
+**Phase D: Deployment & Monitoring** (10-15 min)
+- Deploy to production with monitoring
+- Verify site accessibility and functionality
+- Complete post-migration validation checklist
+
+**🔧 Implementation Details:**
+For step-by-step implementation procedures, detailed bash scripts, and validation checkpoints, refer to the implementation sections in `migration-plan.md`.
+
+**⚠️ Critical Prerequisites:**
+- [ ] Tasks T031-T032 completed (professional test suite operational)
+- [ ] All Phase 5 validation tasks (T025-T030) successfully completed
+- [ ] Current microsite fully functional and tested
+- [ ] Write access to main `denislaliberte.github.io` repository confirmed
+
+**✅ Success Criteria:**
+- [ ] Complete backup created and verified
 - [ ] Site accessible at `https://denislaliberte.github.io/`
-- [ ] All functionality preserved (wiki links, search, mobile, etc.)
+- [ ] All microsite functionality preserved (wiki links, search, mobile)
+- [ ] Professional test suite operational on new domain
+- [ ] Performance requirements maintained
 - [ ] Documentation updated with new URLs
+
+**🚀 Expected Outcomes:**
+- Professional main domain presence established
+- Cleaner, more shareable URL structure
+- Enhanced SEO potential and discoverability
+- Maintained feature parity with current microsite
 
 ---
 

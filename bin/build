@@ -1,0 +1,96 @@
+#!/bin/bash
+
+# Quartz Build Script
+# Usage: ./bin/build [--clean] [--serve] [--test]
+
+set -e
+
+# Parse arguments
+CLEAN=false
+SERVE=false
+TEST=false
+PORT=8080
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --clean)
+            CLEAN=true
+            shift
+            ;;
+        --serve)
+            SERVE=true
+            shift
+            ;;
+        --test)
+            TEST=true
+            shift
+            ;;
+        --port)
+            PORT="$2"
+            shift 2
+            ;;
+        *)
+            echo "Unknown option: $1"
+            echo "Usage: ./bin/build [--clean] [--serve] [--test] [--port PORT]"
+            exit 1
+            ;;
+    esac
+done
+
+echo "🏗️ Quartz Build Script"
+echo "====================="
+
+# Clean cache if requested
+if [ "$CLEAN" = true ]; then
+    echo "🧹 Cleaning cache and build artifacts..."
+    rm -rf .quartz-cache/
+    rm -rf public/
+    echo "✅ Cache cleaned"
+fi
+
+# Build the site
+echo "📦 Building Quartz site..."
+build_start=$(date +%s)
+
+if npx quartz build; then
+    build_end=$(date +%s)
+    build_time=$((build_end - build_start))
+    echo "✅ Build completed in ${build_time} seconds"
+
+    # Show build summary
+    html_count=$(find public -name "*.html" 2>/dev/null | wc -l | tr -d ' ')
+    total_files=$(find public -type f 2>/dev/null | wc -l | tr -d ' ')
+    build_size=$(du -sh public/ 2>/dev/null | cut -f1 || echo "Unknown")
+
+    echo "📊 Build Summary:"
+    echo "   HTML files: $html_count"
+    echo "   Total files: $total_files"
+    echo "   Build size: $build_size"
+else
+    echo "❌ Build failed"
+    exit 1
+fi
+
+# Run tests if requested
+if [ "$TEST" = true ]; then
+    echo ""
+    echo "🧪 Running tests..."
+    if ./bin/test; then
+        echo "✅ All tests passed"
+    else
+        echo "❌ Some tests failed"
+        exit 1
+    fi
+fi
+
+# Serve if requested
+if [ "$SERVE" = true ]; then
+    echo ""
+    echo "🚀 Starting development server..."
+    ./bin/server "$PORT"
+fi
+
+echo ""
+echo "🎉 Build process complete!"
+echo "📁 Built files in: public/"
+echo "🌐 Deploy with: git add . && git commit -m 'Update site' && git push origin v4"
