@@ -5,7 +5,7 @@
 
 ## Task Organization
 
-This implementation is organized into **5 phases** with detailed task breakdowns in separate phase files:
+This implementation is organized into **6 phases** with detailed task breakdowns in separate phase files:
 
 ### 📁 Phase Files Structure
 ```
@@ -14,7 +14,8 @@ specs/001-build-a-microsite/phases/
 ├── phase-2-tests.md        # T006-T011: TDD contract tests  
 ├── phase-3-core.md         # T012-T018: Core implementation
 ├── phase-4-integration.md  # T019-T024: Deployment & automation
-└── phase-5-polish.md       # T025-T030: Final validation & cleanup
+├── phase-5-polish.md       # T025-T030: Final validation & cleanup
+└── phase-6-migration.md    # T031-T033: Professional infrastructure & domain migration
 ```
 
 ## Quick Start Guide
@@ -57,10 +58,16 @@ specs/001-build-a-microsite/phases/
 - **Dependencies**: Phase 4 complete (site deployed)
 - **Key Outputs**: Production-ready system with all requirements validated
 
+### [Phase 6: Migration & Production Optimization](./phases/phase-6-migration.md) (T031-T033)
+- **Duration**: ~60-90 minutes
+- **Focus**: Professional infrastructure and domain migration
+- **Dependencies**: Phase 5 complete (system validated)
+- **Key Outputs**: Professional test suite and main domain deployment
+
 ## Task Summary
 
-**Total Tasks**: 30 tasks across 5 phases (T001-T030)
-**Total Estimated Time**: ~100-120 minutes
+**Total Tasks**: 33 tasks across 6 phases (T001-T033)
+**Total Estimated Time**: ~160-210 minutes
 **Methodology**: Test-Driven Development (TDD) with contract validation
 
 ## Key Technical Requirements
@@ -106,15 +113,17 @@ Tasks marked **[P]** can run in parallel since they target different files:
 ## Success Criteria
 
 **Project Complete When:**
-- ✅ All 30 tasks completed across 5 phases
+- ✅ All 33 tasks completed across 6 phases
 - ✅ Original contract requirements (build-validation.sh) pass
-- ✅ Live site accessible at https://denislaliberte.github.io/microsite/
+- ✅ Live site accessible at https://denislaliberte.github.io/ (main domain)
 - ✅ Wiki links preserve Obsidian note relationships
 - ✅ Publication control works (publish: true/false)
 - ✅ Build performance <30s, site loads <2s
 - ✅ Mobile responsive and cross-browser compatible
+- ✅ Professional test suite operational (JavaScript or Ruby)
+- ✅ Production-ready infrastructure and deployment pipeline
 
-**🎯 Target**: Complete functional Obsidian → Static Site workflow using Quartz v4 with automated GitHub Pages deployment.
+**🎯 Target**: Professional-grade Obsidian → Static Site system with industry-standard infrastructure and main domain deployment.
 
 ---
 

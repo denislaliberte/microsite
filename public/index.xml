@@ -7,28 +7,16 @@
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
     <title>GitHub Pages Configuration Guide</title>
-    <link>https://denislaliberte.github.io/microsite/how-to/github-pages-configuration</link>
-    <guid>https://denislaliberte.github.io/microsite/how-to/github-pages-configuration</guid>
+    <link>https://denislaliberte.github.io/microsite/how-to/2025-09-15-github-pages-configuration</link>
+    <guid>https://denislaliberte.github.io/microsite/how-to/2025-09-15-github-pages-configuration</guid>
     <description><![CDATA[ Complete guide to GitHub Pages deployment options and configuration, derived from official GitHub documentation ]]></description>
-    <pubDate>Mon, 15 Sep 2025 16:35:10 GMT</pubDate>
+    <pubDate>Mon, 15 Sep 2025 20:13:17 GMT</pubDate>
   </item><item>
     <title>index</title>
     <link>https://denislaliberte.github.io/microsite/</link>
     <guid>https://denislaliberte.github.io/microsite/</guid>
     <description><![CDATA[ Welcome to My Notes Hello world! This is my Obsidian notes site built with Quartz. ]]></description>
     <pubDate>Sat, 13 Sep 2025 01:15:38 GMT</pubDate>
-  </item><item>
-    <title>Note with Assets</title>
-    <link>https://denislaliberte.github.io/microsite/test/note-with-assets</link>
-    <guid>https://denislaliberte.github.io/microsite/test/note-with-assets</guid>
-    <description><![CDATA[ Note with Assets This note tests asset handling. Download PDF. ]]></description>
-    <pubDate>Fri, 12 Sep 2025 04:00:00 GMT</pubDate>
-  </item><item>
-    <title>Test Published Note</title>
-    <link>https://denislaliberte.github.io/microsite/test/published-note</link>
-    <guid>https://denislaliberte.github.io/microsite/test/published-note</guid>
-    <description><![CDATA[ Test Content Basic content for testing published note generation. ]]></description>
-    <pubDate>Fri, 12 Sep 2025 04:00:00 GMT</pubDate>
   </item><item>
     <title>TIL: Quartz for Publishing Obsidian Notes</title>
     <link>https://denislaliberte.github.io/microsite/til/quartz-static-sites</link>
