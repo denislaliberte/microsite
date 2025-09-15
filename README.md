@@ -16,7 +16,7 @@ This microsite serves as a digital garden for sharing:
 
 The site is built with Quartz v4, which transforms Obsidian markdown notes into a beautiful, searchable static website with wiki-style linking and modern web features.
 
-## Architecture
+## Folder Structure
 
 ```
 microsite/
