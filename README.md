@@ -2,28 +2,19 @@
 
 [![Deploy to GitHub Pages](https://github.com/denislaliberte/microsite/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/denislaliberte/microsite/actions/workflows/deploy-pages.yml)
 
-A personal knowledge management site built with [Quartz v4](https://quartz.jzhao.xyz/) to share public resources, TIL (Today I Learned) notes, and project documentation.
+A personal knowledge management site built with [Quartz](https://quartz.jzhao.xyz/) to share public resources, TIL (Today I Learned) notes, and project documentation.
 
 **🌐 Live Site**: https://denislaliberte.github.io/microsite/
 
 ## Overview
 
-This microsite serves as a digital garden for sharing:
-- **TIL Notes**: Today I Learned entries on various technical topics
-- **How-to Guides**: Technical documentation and guides
-- **Project Documentation**: Development notes and specifications
-- **Public Resources**: Curated content for public consumption
-
-The site is built with Quartz v4, which transforms Obsidian markdown notes into a beautiful, searchable static website with wiki-style linking and modern web features.
+A digital garden for sharing knowledge and resources. The site is built with Quartz v4, which transforms Obsidian markdown notes into a beautiful, searchable static website with wiki-style linking and modern web features.
 
 ## Folder Structure
 
 ```
 microsite/
 ├── content/                 # Source markdown files
-│   ├── til/                # Today I Learned notes
-│   ├── how-to/             # Technical guides
-│   └── specs/              # Project specifications
 ├── public/                 # Generated static site (auto-built)
 ├── .github/workflows/      # GitHub Actions automation
 ├── quartz.config.ts        # Site configuration
