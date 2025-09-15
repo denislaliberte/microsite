@@ -1,0 +1,120 @@
+#!/bin/bash
+# bin/test - Run all TDD integration tests
+# Phase 2: Tests First (TDD) test runner
+
+set -e
+
+# Test configuration
+TEST_DIR="tests/integration"
+LOG_DIR="tests/logs"
+TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+SUMMARY_LOG="${LOG_DIR}/test_summary_${TIMESTAMP}.log"
+TOTAL_TESTS=0
+PASSED_TESTS=0
+FAILED_TESTS=0
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Create log directory
+mkdir -p "$LOG_DIR"
+
+echo "🧪 TDD Test Suite"
+echo "=================="
+
+# Check if test directory exists
+if [[ ! -d "$TEST_DIR" ]]; then
+    echo "❌ Test directory not found: $TEST_DIR"
+    exit 1
+fi
+
+# Find all test scripts
+TEST_SCRIPTS=($(find "$TEST_DIR" -name "*.sh" -type f | sort))
+
+if [[ ${#TEST_SCRIPTS[@]} -eq 0 ]]; then
+    echo "❌ No test scripts found in $TEST_DIR"
+    exit 1
+fi
+
+echo "Found ${#TEST_SCRIPTS[@]} tests, running..."
+echo ""
+
+# Initialize summary log
+echo "TDD Test Suite Results - $(date)" > "$SUMMARY_LOG"
+echo "====================================" >> "$SUMMARY_LOG"
+echo "" >> "$SUMMARY_LOG"
+
+# Run each test and track results
+for test_script in "${TEST_SCRIPTS[@]}"; do
+    test_name=$(basename "$test_script" .sh)
+    test_log="${LOG_DIR}/${test_name}_${TIMESTAMP}.log"
+    ((TOTAL_TESTS++))
+    
+    printf "%-25s " "$test_name"
+    
+    # Run the test and capture output to log file
+    if "$test_script" > "$test_log" 2>&1; then
+        echo -e "${GREEN}✅ PASS${NC}"
+        ((PASSED_TESTS++))
+        echo "✅ PASS: $test_name" >> "$SUMMARY_LOG"
+    else
+        echo -e "${RED}❌ FAIL${NC}"
+        ((FAILED_TESTS++))
+        echo "❌ FAIL: $test_name" >> "$SUMMARY_LOG"
+    fi
+done
+
+echo ""
+echo "===================="
+echo -e "${BLUE}RESULTS${NC}"
+echo "===================="
+
+# Calculate percentage
+if [[ $TOTAL_TESTS -gt 0 ]]; then
+    pass_rate=$(( (PASSED_TESTS * 100) / TOTAL_TESTS ))
+else
+    pass_rate=0
+fi
+
+echo -e "Passed: ${GREEN}${PASSED_TESTS}/${TOTAL_TESTS}${NC} (${pass_rate}%)"
+
+# Write summary to log
+echo "" >> "$SUMMARY_LOG"
+echo "Summary: ${PASSED_TESTS}/${TOTAL_TESTS} tests passed (${pass_rate}%)" >> "$SUMMARY_LOG"
+echo "Timestamp: $(date)" >> "$SUMMARY_LOG"
+
+# TDD Analysis (concise)
+if [[ $FAILED_TESTS -eq 0 ]]; then
+    echo -e "Status: ${GREEN}All tests passing - ready for validation${NC}"
+    echo "Status: All tests passing" >> "$SUMMARY_LOG"
+elif [[ $PASSED_TESTS -eq 0 ]]; then
+    echo -e "Status: ${RED}Full TDD mode - implementation needed${NC}"
+    echo "Status: Full TDD mode" >> "$SUMMARY_LOG"
+else
+    echo -e "Status: ${YELLOW}Hybrid TDD mode - partial implementation${NC}"
+    echo "Status: Hybrid TDD mode" >> "$SUMMARY_LOG"
+fi
+
+echo ""
+echo "📁 Logs saved to: tests/logs/"
+echo "   Summary: $(basename "$SUMMARY_LOG")"
+echo "   Details: *_${TIMESTAMP}.log"
+
+# Show how to view failed test details
+if [[ $FAILED_TESTS -gt 0 ]]; then
+    echo ""
+    echo "💡 View failed test details:"
+    echo "   ls tests/logs/*_${TIMESTAMP}.log"
+    echo "   cat tests/logs/test_summary_${TIMESTAMP}.log"
+fi
+
+# Exit with appropriate code
+if [[ $FAILED_TESTS -gt 0 ]]; then
+    exit 1
+else
+    exit 0
+fi

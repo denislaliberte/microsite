@@ -10,7 +10,31 @@
     <link>https://quartz.jzhao.xyz/</link>
     <guid>https://quartz.jzhao.xyz/</guid>
     <description><![CDATA[ Welcome to My Notes Hello world! This is my Obsidian notes site built with Quartz. ]]></description>
-    <pubDate>Wed, 23 Aug 2023 19:09:04 GMT</pubDate>
+    <pubDate>Sat, 13 Sep 2025 01:15:38 GMT</pubDate>
+  </item><item>
+    <title>Note with Assets</title>
+    <link>https://quartz.jzhao.xyz/test/note-with-assets</link>
+    <guid>https://quartz.jzhao.xyz/test/note-with-assets</guid>
+    <description><![CDATA[ Note with Assets This note tests asset handling. Download PDF. ]]></description>
+    <pubDate>Fri, 12 Sep 2025 04:00:00 GMT</pubDate>
+  </item><item>
+    <title>Test Published Note</title>
+    <link>https://quartz.jzhao.xyz/test/published-note</link>
+    <guid>https://quartz.jzhao.xyz/test/published-note</guid>
+    <description><![CDATA[ Test Content Basic content for testing published note generation. ]]></description>
+    <pubDate>Fri, 12 Sep 2025 04:00:00 GMT</pubDate>
+  </item><item>
+    <title>TIL: Quartz for Publishing Obsidian Notes</title>
+    <link>https://quartz.jzhao.xyz/til/quartz-static-sites</link>
+    <guid>https://quartz.jzhao.xyz/til/quartz-static-sites</guid>
+    <description><![CDATA[ TIL: Quartz Static Sites Quartz converts Obsidian notes to websites. My Use Case Used Spec Kit workflow to plan this microsite setup. ]]></description>
+    <pubDate>Fri, 12 Sep 2025 04:00:00 GMT</pubDate>
+  </item><item>
+    <title>TIL: GitHub Spec Kit for Spec-Driven Development</title>
+    <link>https://quartz.jzhao.xyz/til/spec-kit</link>
+    <guid>https://quartz.jzhao.xyz/til/spec-kit</guid>
+    <description><![CDATA[ TIL: GitHub Spec Kit Today I learned about GitHub’s Spec Kit - structured prompts that guide LLMs to build the right thing. ]]></description>
+    <pubDate>Fri, 12 Sep 2025 04:00:00 GMT</pubDate>
   </item>
     </channel>
   </rss>
