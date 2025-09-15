@@ -294,9 +294,78 @@ echo "   6. Verify at: https://denislaliberte.github.io/microsite/"
 
 📋 Corrected Manual Deployment Process:
 1. ✅ Build locally: npx quartz build → public/ directory
-2. ✅ Commit built files: git add public/ && git commit
-3. 🔄 Deploy built files: Need to use public/ as site root
-4. ⚠️ Current setup: GitHub Pages trying to build from source (wrong approach)
+2. ✅ Copy built files to root: cp -r public/* .
+3. ✅ Commit static files: git add . && git commit
+4. ✅ Push for deployment: git push origin v4
+
+✅ Corrected Implementation Complete:
+- ✅ Copied all built files from public/ to root directory
+- ✅ Committed 52 files (HTML, CSS, JS, assets) to root
+- ✅ Pushed corrected deployment (commit: 41050ae)
+- 🔄 New build triggered: 2025-09-15T15:43:13Z
+- ⏳ Waiting for corrected deployment to complete
+
+💡 Key Learning:
+Manual deployment = commit pre-built static files to root, not source build
+
+=== CRITICAL DISCOVERY: GitHub Pages Folder Restrictions ===
+⚠️ GitHub Pages Source Folder Limitation Found:
+- 🚫 Cannot serve from /public (not an option)
+- ✅ Only supports: / (root) or /docs
+- 📸 Confirmed via GitHub UI: Only root and docs folders available
+- 🔍 Current config: Serving from / (root)
+
+🔄 Current Status Investigation:
+- ✅ Files copied to root: index.html, 404.html, CSS, JS present
+- ✅ GitHub Pages config: v4 branch, / (root) source
+- ⏳ Build status: "building" for 10+ minutes (started 15:43:13Z)
+- 🚨 Issue: Extended build time suggests deployment problem
+
+🤔 Options to Resolve:
+1. Wait for current root deployment to complete
+2. Try /docs approach: copy public/* to docs/, set Pages source to /docs
+3. Investigate why build is stuck in "building" status
+
+📍 Need Decision: Proceed with /docs approach or debug current root deployment?
+
+=== WEB SEARCH CONFIRMATION ===
+🔍 Verified via GitHub Official Documentation (2025):
+
+✅ **GitHub Pages Source Folder Options**:
+1. **Root directory (`/`)** - Deploy from repository root
+2. **`/docs` folder** - Deploy from /docs directory
+3. **GitHub Actions** - Deploy from any folder (most flexible)
+
+✅ **Deployment Methods**:
+1. "Deploy from a branch" (traditional - limited to / or /docs)
+2. "GitHub Actions" (modern - any folder, custom workflows)
+
+💡 **Key Finding**: Our assumption was 100% correct!
+- GitHub Pages (traditional) only supports / (root) or /docs
+- For custom folders like /public, must use GitHub Actions
+- Our current approach (root deployment) should work
+
+🎯 **Recommendation**: Since we're doing manual deployment for Phase 4.1,
+stick with root (/) approach and debug why build is stuck.
+
+=== DIRECTION CHANGE: SWITCH TO GITHUB ACTIONS ===
+📅 Decision Made: 2025-09-15 11:58 EDT
+
+🔄 **Change Rationale**:
+- ❌ Traditional deployment stuck "building" for 15+ minutes
+- ❌ Root deployment requires copying files from public/ to root (messy)
+- ✅ GitHub Actions allows direct deployment from public/ folder
+- ✅ More flexible and aligns with modern best practices
+- ✅ Cleaner separation of source and deployment files
+
+🎯 **New Approach**: GitHub Actions Workflow
+1. Build locally: npx quartz build → public/
+2. Commit source + public/ to repository
+3. GitHub Actions deploys public/ folder automatically
+4. No file copying needed, cleaner workflow
+
+📝 **Updated Phase 4.1 Goal**:
+Manual build process + GitHub Actions deployment = Best of both worlds
 
 
 ```
